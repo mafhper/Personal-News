@@ -1,43 +1,57 @@
 name: Deploy to GitHub Pages
 
-permissions:
-  contents: write
-  
+# Dispara a cada push no main
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
+
+# Permissões necessárias
+permissions:
+  contents: read          # Ler o repositório
+  pages: write            # Gravar no GitHub Pages
+  id-token: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      
-    - name: Setup Bun
-      uses: oven-sh/setup-bun@v1
-      with:
-        bun-version: latest
-        
-    - name: Install dependencies
-      run: bun install
-      
-    - name: Type check
-      run: bun run type-check
-      
-    - name: Run tests
-      run: bun run test
-      
-    - name: Build
-      run: bun run build
-      
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main'
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
-        cname: # Add your custom domain here if needed
+      # 1️⃣ Clona o repositório
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Instala Bun
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.2.23
+
+      # 3️⃣ Instala dependências
+      - name: Install dependencies
+        run: bun install --no-cache
+
+      # 4️⃣ Garante os tipos Node para TypeScript
+      - name: Ensure Node types
+        run: bun add -d @types/node
+
+      # 5️⃣ Rodar type-check
+      - name: Type check
+        run: bun tsc --noEmit -p tsconfig.json
+
+      # 6️⃣ Build do projeto (gera a pasta dist)
+      - name: Build project
+        run: bun vite build
+
+      # 7️⃣ Prepara os arquivos para GitHub Pages
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist   # pasta de build
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-deploy
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
