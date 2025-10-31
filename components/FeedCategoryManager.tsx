@@ -13,6 +13,7 @@ import React, { useState, useRef, useCallback } from "react";
 import { useFeedCategories } from "../hooks/useFeedCategories";
 import { useLogger } from "../services/logger";
 import type { FeedSource, FeedCategory } from "../types";
+import { sanitizeHtmlContent } from "../utils/sanitization";
 import { useNotificationReplacements } from "../hooks/useNotificationReplacements";
 import { Card } from "./ui/Card";
 import { Button } from "./ui/Button";
@@ -649,7 +650,7 @@ export const FeedCategoryManager: React.FC<FeedCategoryManagerProps> = ({
 
             {category.description && (
               <p className="text-[rgb(var(--color-textSecondary))] text-sm mb-4 leading-relaxed">
-                {category.description}
+                {sanitizeHtmlContent(category.description)}
               </p>
             )}
 

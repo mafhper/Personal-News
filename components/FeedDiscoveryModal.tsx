@@ -13,6 +13,7 @@ import { Badge } from "./ui/Badge";
 import { ActionIcons } from "./icons/ActionIcons";
 import { StatusIcons } from "./icons/StatusIcons";
 import { FeedIcons } from "./icons/FeedIcons";
+import { sanitizeArticleDescription } from "../utils/sanitization";
 import type { DiscoveredFeed } from "../services/feedDiscoveryService";
 
 interface FeedDiscoveryModalProps {
@@ -147,7 +148,7 @@ export const FeedDiscoveryModal: React.FC<FeedDiscoveryModalProps> = ({
               {/* Feed description */}
               {feed.description && (
                 <p className="text-sm text-gray-500 line-clamp-3 leading-relaxed">
-                  {feed.description}
+                  {sanitizeArticleDescription(feed.description)}
                 </p>
               )}
 

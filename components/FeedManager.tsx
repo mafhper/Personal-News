@@ -36,6 +36,7 @@ import {
   type DuplicateDetectionResult,
 } from "../services/feedDuplicateDetector";
 import { useNotificationReplacements } from "../hooks/useNotificationReplacements";
+import { sanitizeArticleDescription } from "../utils/sanitization";
 
 interface FeedManagerProps {
   currentFeeds: FeedSource[];
@@ -1263,7 +1264,7 @@ export const FeedManager: React.FC<FeedManagerProps> = ({
 
                         {feed.description && (
                           <p className="text-sm text-gray-300 mb-2 line-clamp-2">
-                            {feed.description}
+                            {sanitizeArticleDescription(feed.description)}
                           </p>
                         )}
 
@@ -1584,7 +1585,7 @@ export const FeedManager: React.FC<FeedManagerProps> = ({
                                 className="text-xs text-gray-400 truncate mb-1"
                                 title={validation.description}
                               >
-                                {validation.description}
+                                {sanitizeArticleDescription(validation.description)}
                               </div>
                             )}
 
@@ -1955,7 +1956,7 @@ export const FeedManager: React.FC<FeedManagerProps> = ({
 
                       {feed.description && (
                         <div className="text-xs text-gray-400 mb-2 line-clamp-2">
-                          {feed.description}
+                          {sanitizeArticleDescription(feed.description)}
                         </div>
                       )}
 

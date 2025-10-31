@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Article } from '../types';
 import { useSearch, useSearchHistory, useSearchSuggestions } from '../hooks/useSearch';
 import { highlightSearchTerms } from '../services/searchUtils';
+import { sanitizeHtmlContent } from '../utils/sanitization';
 
 export interface SearchFilters {
   category?: string;
@@ -241,11 +242,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   };
 
   const renderHighlightedText = (text: string) => {
-    if (!query.trim()) return text;
+    if (!query.trim()) return sanitizeHtmlContent(text);
+    const sanitizedText = sanitizeHtmlContent(text);
     return (
       <span
         dangerouslySetInnerHTML={{
-          __html: highlightSearchTerms(text, query)
+          __html: highlightSearchTerms(sanitizedText, query)
         }}
       />
     );

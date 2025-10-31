@@ -10,6 +10,7 @@ import { Select } from "./ui/Select";
 import { Badge } from "./ui/Badge";
 import { IconButton } from "./ui/IconButton";
 import { ActionIcons, StatusIcons } from "./icons";
+import { sanitizeArticleDescription } from "../utils/sanitization";
 // import type { Article } from '../types';
 
 interface FavoritesModalProps {
@@ -333,7 +334,7 @@ export const FavoritesModal: React.FC<FavoritesModalProps> = ({
                           </div>
                           {favorite.description && (
                             <p className="text-[rgb(var(--color-textSecondary))] text-sm mt-3 line-clamp-2 leading-relaxed">
-                              {favorite.description}
+                              {sanitizeArticleDescription(favorite.description)}
                             </p>
                           )}
                         </div>
