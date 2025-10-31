@@ -14,6 +14,122 @@ This application provides a centralized interface for consuming RSS/Atom feeds w
 
 ![Preview: Dashboard](/screen.png)
 
+## Installation
+
+### Prerequisites
+- Bun 1.0+ (recommended) or Node.js 18+
+- Modern web browser with ES2022 support
+
+### Setup
+```bash
+# Clone repository
+git clone <repository-url>
+cd personal-news
+
+# Install dependencies
+bun install
+
+# Start development server
+bun dev
+```
+
+### Build for Production
+```bash
+# Type checking
+bun run type-check
+
+# Production build
+bun run build
+
+# Preview production build
+bun run preview
+```
+
+### GitHub Pages Deployment
+This application is fully compatible with GitHub Pages and requires no server-side dependencies:
+
+```bash
+# Build for production
+bun run build
+
+# The build output in 'dist/' directory is ready for deployment
+# Simply push the repository and enable GitHub Pages pointing to the 'dist' folder
+```
+
+**Note**: The application uses public CORS proxies to fetch RSS feeds, eliminating the need for any backend server. All data is processed and stored locally in the browser.
+
+## Development
+
+### Available Scripts
+```bash
+bun dev              # Start development server
+bun run build        # Production build
+bun run preview      # Preview production build
+bun run test         # Run core tests (133 tests, ~15s)
+bun run test:all     # Run comprehensive tests
+bun run test:watch   # Run tests in watch mode
+bun run test:coverage # Generate coverage report
+bun run type-check   # TypeScript type checking
+bun run clean        # Clean build artifacts
+```
+
+### Project Structure
+```
+├── components/             # React components
+│   ├── ui/                # Reusable UI components
+│   └── icons/             # Icon components
+├── contexts/              # React contexts
+├── hooks/                 # Custom React hooks
+├── services/              # Business logic and utilities
+│   ├── rssParser.ts       # RSS/Atom parsing
+│   ├── feedValidator.ts   # Feed validation
+│   ├── articleCache.ts    # Caching system
+│   └── performanceUtils.ts # Performance monitoring
+├── types/                 # TypeScript definitions
+├── utils/                 # Utility functions
+├── __tests__/             # Test files
+├── docs/                  # Documentation
+├── App.tsx                # Main application component
+├── index.tsx              # Application entry point
+└── vite.config.ts         # Build configuration
+```
+## Configuration
+
+### Environment Variables
+```bash
+# Development
+NODE_ENV=development
+
+# Production
+NODE_ENV=production
+```
+
+### Build Configuration
+The application uses Vite for building with the following optimizations:
+- ES2022 target for modern browsers
+- Code splitting for optimal loading
+- Asset optimization and compression
+- Source maps for debugging
+
+### Code Standards
+- TypeScript strict mode enabled
+- ESLint configuration for code quality
+- Prettier for code formatting
+- Conventional commit messages
+
+## Performance Metrics
+
+- **Bundle Size**: Optimized for minimal footprint
+- **Load Time**: Sub-second initial load
+- **Memory Usage**: Efficient memory management with automatic cleanup
+- **Test Coverage**: 100% success rate on core functionality
+
+## Browser Compatibility
+
+- Chrome/Chromium 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
 
 ## Technical Features
 
@@ -65,86 +181,6 @@ This application provides a centralized interface for consuming RSS/Atom feeds w
 - **Zod 4.0**: Runtime type validation
 - **Custom Hooks**: Reusable React logic
 - **Performance Utils**: Custom performance monitoring
-
-## Installation
-
-### Prerequisites
-- Bun 1.0+ (recommended) or Node.js 18+
-- Modern web browser with ES2022 support
-
-### Setup
-```bash
-# Clone repository
-git clone <repository-url>
-cd personal-news
-
-# Install dependencies
-bun install
-
-# Start development server
-bun dev
-```
-
-### Build for Production
-```bash
-# Type checking
-bun run type-check
-
-# Production build
-bun run build
-
-# Preview production build
-bun run preview
-```
-
-### GitHub Pages Deployment
-This application is fully compatible with GitHub Pages and requires no server-side dependencies:
-
-```bash
-# Build for GitHub Pages
-bun run build
-
-# The build output in 'myrssfeed/' directory is ready for deployment
-# Simply push the repository and enable GitHub Pages pointing to the 'myrssfeed' folder
-```
-
-**Note**: The application uses public CORS proxies to fetch RSS feeds, eliminating the need for any backend server. All data is processed and stored locally in the browser.
-
-## Development
-
-### Available Scripts
-```bash
-bun dev              # Start development server
-bun run build        # Production build
-bun run preview      # Preview production build
-bun run test         # Run core tests (133 tests, ~15s)
-bun run test:all     # Run comprehensive tests
-bun run test:watch   # Run tests in watch mode
-bun run test:coverage # Generate coverage report
-bun run type-check   # TypeScript type checking
-bun run clean        # Clean build artifacts
-```
-
-### Project Structure
-```
-├── components/             # React components
-│   ├── ui/                # Reusable UI components
-│   └── icons/             # Icon components
-├── contexts/              # React contexts
-├── hooks/                 # Custom React hooks
-├── services/              # Business logic and utilities
-│   ├── rssParser.ts       # RSS/Atom parsing
-│   ├── feedValidator.ts   # Feed validation
-│   ├── articleCache.ts    # Caching system
-│   └── performanceUtils.ts # Performance monitoring
-├── types/                 # TypeScript definitions
-├── utils/                 # Utility functions
-├── __tests__/             # Test files
-├── docs/                  # Documentation
-├── App.tsx                # Main application component
-├── index.tsx              # Application entry point
-└── vite.config.ts         # Build configuration
-```
 
 ### Testing Strategy
 
@@ -218,31 +254,6 @@ To test the new default feeds on an existing installation:
 3. **Option 3 - Incognito/Private Mode**:
    - Open the app in incognito/private browsing mode
 
-## Configuration
-
-### Environment Variables
-```bash
-# Development
-NODE_ENV=development
-
-# Production
-NODE_ENV=production
-```
-
-### Build Configuration
-The application uses Vite for building with the following optimizations:
-- ES2022 target for modern browsers
-- Code splitting for optimal loading
-- Asset optimization and compression
-- Source maps for debugging
-
-## Browser Compatibility
-
-- Chrome/Chromium 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
-
 ## Contributing
 
 1. Fork the repository
@@ -252,19 +263,7 @@ The application uses Vite for building with the following optimizations:
 5. Ensure type safety (`bun run type-check`)
 6. Submit pull request
 
-### Code Standards
-- TypeScript strict mode enabled
-- ESLint configuration for code quality
-- Prettier for code formatting
-- Conventional commit messages
-
 ## License
 
 MIT License. See [LICENSE](LICENSE) file for details.
 
-## Performance Metrics
-
-- **Bundle Size**: Optimized for minimal footprint
-- **Load Time**: Sub-second initial load
-- **Memory Usage**: Efficient memory management with automatic cleanup
-- **Test Coverage**: 100% success rate on core functionality
