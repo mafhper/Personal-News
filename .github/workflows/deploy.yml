@@ -36,5 +36,5 @@ jobs:
       if: github.ref == 'refs/heads/main'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./myrssfeed
+        publish_dir: ./dist
         cname: # Add your custom domain here if needed
