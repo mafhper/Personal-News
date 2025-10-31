@@ -14,38 +14,38 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # 1️⃣ Clona o repositório
+      # 1️ Clona o repositório
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Configura Bun
+      # 2️ Configura Bun
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: 1.2.23
 
-      # 3️⃣ Instala dependências
+      # 3️ Instala dependências
       - name: Install dependencies
         run: bun install --no-cache
 
-      # 4️⃣ Garante os tipos Node
+      # 4️ Garante os tipos Node
       - name: Ensure Node types
         run: bun add -d @types/node
 
-      # 5️⃣ Rodar type-check
+      # 5️ Rodar type-check
       - name: Type check
         run: bun tsc --noEmit -p tsconfig.json
 
-      # 6️⃣ Limpa builds antigos
+      # 6️ Limpa builds antigos (substituindo rimraf)
       - name: Clean dist
-        run: bun rimraf dist
+        run: rm -rf dist
 
-      # 7️⃣ Build do projeto
+      # 7️ Build do projeto (gera a pasta dist)
       - name: Build project
         run: bun vite build
 
-      # 8️⃣ Preparar arquivos para GitHub Pages
-      - name: Upload artifact
+      # 8️ Prepara os arquivos para GitHub Pages
+      - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      # 9️⃣ Publica no GitHub Pages
+      # 9️ Publica no GitHub Pages
       - name: Deploy to GitHub Pages
         id: deploy
         uses: actions/deploy-pages@v4
