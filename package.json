@@ -1,0 +1,56 @@
+{
+  "name": "personal-news",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A fast, modern personal news aggregator that serves as your browser homepage. Built with React, TypeScript, and optimized with Bun.",
+  "author": "mafhper",
+  "license": "MIT",
+  "keywords": [
+    "rss",
+    "news",
+    "aggregator",
+    "homepage",
+    "react",
+    "typescript",
+    "bun",
+    "vite"
+  ],
+  "scripts": {
+    "dev": "bun vite",
+    "build": "bun tsc && bun vite build",
+    "preview": "bun vite preview",
+    "test": "bun vitest run --config vitest.config.core.ts",
+    "test:all": "bun vitest run --config vitest.config.minimal.ts",
+    "test:watch": "bun vitest --config vitest.config.core.ts",
+    "test:coverage": "bun vitest run --coverage",
+    "type-check": "bun tsc --noEmit",
+    "clean": "bun rimraf dist node_modules/.vite",
+    "deploy": "bun run build && git add dist/ && git commit -m \"Deploy: Update build\" && git push origin main"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.4.21",
+    "jsdom": "^26.1.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.0",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.2.0",
+    "lucide-react": "^0.536.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "zod": "^4.0.10"
+  }
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>Personal News Dashboard Feeds</title>
+    <dateCreated>Mon, 27 Oct 2025 03:47:48 GMT</dateCreated>
+    <dateModified>Mon, 27 Oct 2025 03:47:48 GMT</dateModified>
+    <ownerName>Personal News Dashboard User</ownerName>
+    
+    <docs>http://dev.opml.org/spec2.html</docs>
+    <expansionState></expansionState>
+    <vertScrollState>1</vertScrollState>
+    <windowTop>146</windowTop>
+    <windowLeft>107</windowLeft>
+    <windowBottom>468</windowBottom>
+    <windowRight>560</windowRight>
+  </head>
+  <body>
+    <outline type="rss" text="theverge.com" title="theverge.com" xmlUrl="https://www.theverge.com/rss/index.xml" htmlUrl="https://www.theverge.com" category="tech" />
+    <outline type="rss" text="wired.com" title="wired.com" xmlUrl="https://www.wired.com/feed/rss" htmlUrl="https://www.wired.com/feed" category="tech" />
+    <outline type="rss" text="feeds.feedburner.com" title="feeds.feedburner.com" xmlUrl="http://feeds.feedburner.com/Techcrunch" htmlUrl="http://feeds.feedburner.com" category="tech" />
+    <outline type="rss" text="popsci.com" title="popsci.com" xmlUrl="http://www.popsci.com/rss.xml" htmlUrl="http://www.popsci.com" category="reviews" />
+    <outline type="rss" text="macmagazine.com.br" title="macmagazine.com.br" xmlUrl="http://macmagazine.com.br/feed/" htmlUrl="http://macmagazine.com.br" category="tech" />
+    <outline type="rss" text="feeds.feedburner.com" title="feeds.feedburner.com" xmlUrl="http://feeds.feedburner.com/guiadopc" htmlUrl="http://feeds.feedburner.com" category="tech" />
+    <outline type="rss" text="feeds2.feedburner.com" title="feeds2.feedburner.com" xmlUrl="http://feeds2.feedburner.com/canaltechbr" htmlUrl="http://feeds2.feedburner.com" category="tech" />
+    <outline type="rss" text="pplware.sapo.pt" title="pplware.sapo.pt" xmlUrl="http://pplware.sapo.pt/feed/" htmlUrl="http://pplware.sapo.pt" category="reviews" />
+    <outline type="rss" text="meiobit.com" title="meiobit.com" xmlUrl="http://meiobit.com/index.xml" htmlUrl="http://meiobit.com" category="reviews" />
+    <outline type="rss" text="feeds.feedburner.com" title="feeds.feedburner.com" xmlUrl="http://feeds.feedburner.com/blogdoiphone/rss" htmlUrl="http://feeds.feedburner.com/blogdoiphone" category="tech" />
+    <outline type="rss" text="feeds.arstechnica.com" title="feeds.arstechnica.com" xmlUrl="http://feeds.arstechnica.com/arstechnica/index/" htmlUrl="http://feeds.arstechnica.com" category="tech" />
+    <outline type="rss" text="feeds2.feedburner.com" title="feeds2.feedburner.com" xmlUrl="http://feeds2.feedburner.com/thenextweb" htmlUrl="http://feeds2.feedburner.com" category="tech" />
+    <outline type="rss" text="feeds.wired.com" title="feeds.wired.com" xmlUrl="http://feeds.wired.com/wired/index" htmlUrl="http://feeds.wired.com" category="tech" />
+    <outline type="rss" text="feeds.feedburner.com" title="feeds.feedburner.com" xmlUrl="http://feeds.feedburner.com/tecnoblog" htmlUrl="http://feeds.feedburner.com" category="tech" />
+    <outline type="rss" text="yankodesign.com" title="yankodesign.com" xmlUrl="http://www.yankodesign.com/feed/" htmlUrl="http://www.yankodesign.com" category="reviews" />
+    <outline type="rss" text="home-designing.com" title="home-designing.com" xmlUrl="http://www.home-designing.com/feed" htmlUrl="http://www.home-designing.com" category="reviews" />
+    <outline type="rss" text="fubiz.net" title="fubiz.net" xmlUrl="http://www.fubiz.net/en/feed/" htmlUrl="http://www.fubiz.net/en" category="reviews" />
+    <outline type="rss" text="feeds.feedburner.com" title="feeds.feedburner.com" xmlUrl="http://feeds.feedburner.com/design-milk" htmlUrl="http://feeds.feedburner.com" category="reviews" />
+    <outline type="rss" text="feeds.feedburner.com" title="feeds.feedburner.com" xmlUrl="http://feeds.feedburner.com/JustCreativeDesignBlog" htmlUrl="http://feeds.feedburner.com" category="reviews" />
+    <outline type="rss" text="feeds.feedburner.com" title="feeds.feedburner.com" xmlUrl="http://feeds.feedburner.com/core77/blog" htmlUrl="http://feeds.feedburner.com" category="reviews" />
+    <outline type="rss" text="updateordie.com" title="updateordie.com" xmlUrl="http://updateordie.com/feed/" htmlUrl="http://updateordie.com" category="reviews" />
+    <outline type="rss" text="feeds.feedburner.com" title="feeds.feedburner.com" xmlUrl="http://feeds.feedburner.com/awwwards-sites-of-the-day" htmlUrl="http://feeds.feedburner.com" category="reviews" />
+    <outline type="rss" text="feeds.feedburner.com" title="feeds.feedburner.com" xmlUrl="http://feeds.feedburner.com/dezeen" htmlUrl="http://feeds.feedburner.com" category="reviews" />
+    <outline type="rss" text="feeds.feedburner.com" title="feeds.feedburner.com" xmlUrl="http://feeds.feedburner.com/brainstorm9" htmlUrl="http://feeds.feedburner.com" category="reviews" />
+  </body>
+</opml>

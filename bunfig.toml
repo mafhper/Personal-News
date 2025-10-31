@@ -1,0 +1,26 @@
+# Bun configuration file
+
+[install]
+# Use exact versions for better reproducibility
+exact = true
+
+# Faster installs
+cache = true
+registry = "https://registry.npmjs.org/"
+
+# Optimize for development
+dev = true
+
+[install.scopes]
+# Optional: configure scoped registries if needed
+
+[test]
+# Test configuration
+preload = ["./src/test-setup.ts"]
+timeout = 30000
+
+[build]
+# Build optimizations
+minify = true
+sourcemap = true
+target = "browser"
