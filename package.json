@@ -24,7 +24,7 @@
     "test:all": "bun vitest run --config vitest.config.minimal.ts",
     "test:watch": "bun vitest --config vitest.config.core.ts",
     "test:coverage": "bun vitest run --coverage",
-    "type-check": "bun tsc --noEmit",
+    "type-check": "tsc --noEmit -p tsconfig.json",
     "clean": "bun rimraf dist node_modules/.vite",
     "deploy": "bun run build && git add dist/ && git commit -m \"Deploy: Update build\" && git push origin main"
   },
