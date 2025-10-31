@@ -169,6 +169,55 @@ The project implements a tiered testing approach:
 - **Caching Strategy**: Multi-level caching with intelligent invalidation
 - **Memory Management**: Automatic cleanup and garbage collection
 
+## Default Feeds
+
+The application comes pre-configured with a curated selection of high-quality RSS feeds organized by category:
+
+### Technology (12 feeds)
+- **The Verge** - Technology, science, art and culture
+- **Wired** - How technology is transforming the world
+- **TechCrunch** - Startups, venture capital and emerging technology
+- **CNET** - Product reviews, tech news and buying guides
+- **Tecnoblog** - Brazil's largest technology blog (Portuguese)
+- **Meio Bit** - Technology with humor and irreverence (Portuguese)
+- **XDA Developers** - Android development and mobile customization
+- **It's FOSS** - Linux, open source and free software
+- **Ars Technica** - In-depth technical analysis and tech news
+- **OMG! Ubuntu!** - Ubuntu Linux news, tips and tutorials
+- **OMG! Linux** - Linux world news and updates
+- **Diolinux** - Linux, open source and technology in Portuguese
+
+### Entertainment (2 feeds)
+- **Polygon** - Games, entertainment and nerd culture
+- **Jogabilidade** - Brazil's largest gaming portal (Portuguese)
+
+### Science (1 feed)
+- **MIT News** - Research and discoveries from MIT
+
+### Reviews (1 feed)
+- **Tom's Guide** - Detailed tech product reviews and buying guides
+
+### Feed Management
+- All feeds are automatically categorized on first load
+- Users can add, remove, or recategorize feeds through the Feed Manager
+- Feed validation ensures all URLs are working and accessible
+- Automatic discovery helps find RSS feeds from website URLs
+- **Reset to Defaults**: Users can reset to the curated feed collection anytime
+- **Migration System**: Existing users are automatically upgraded to new feeds
+
+### Testing New Feeds
+To test the new default feeds on an existing installation:
+
+1. **Option 1 - Use Reset Button**: 
+   - Open Feed Manager → Click "Reset to Defaults" button
+   
+2. **Option 2 - Clear Browser Storage**:
+   - Open browser console (F12)
+   - Run: `localStorage.clear(); location.reload();`
+   
+3. **Option 3 - Incognito/Private Mode**:
+   - Open the app in incognito/private browsing mode
+
 ## Configuration
 
 ### Environment Variables

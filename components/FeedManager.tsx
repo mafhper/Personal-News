@@ -37,6 +37,7 @@ import {
 } from "../services/feedDuplicateDetector";
 import { useNotificationReplacements } from "../hooks/useNotificationReplacements";
 import { sanitizeArticleDescription } from "../utils/sanitization";
+import { resetToDefaultFeeds } from "../utils/feedMigration";
 
 interface FeedManagerProps {
   currentFeeds: FeedSource[];
@@ -893,6 +894,33 @@ export const FeedManager: React.FC<FeedManagerProps> = ({
   const handleClearFilters = () => {
     setSearchTerm("");
     setStatusFilter("all");
+  };
+
+  const handleResetToDefaults = async () => {
+    const confirmed = await confirmDanger(
+      "Tem certeza que deseja resetar para os feeds padrão? Isso substituirá todos os seus feeds atuais pela coleção curada de 16 feeds organizados por categoria."
+    );
+
+    if (confirmed) {
+      try {
+        const defaultFeeds = resetToDefaultFeeds();
+        setFeeds(defaultFeeds);
+        
+        await alertSuccess(
+          `✅ Feeds resetados com sucesso! Agora você tem ${defaultFeeds.length} feeds organizados por categoria.`
+        );
+
+        logger.info("Feeds reset to defaults", {
+          additionalData: {
+            previousFeedCount: currentFeeds.length,
+            newFeedCount: defaultFeeds.length,
+          },
+        });
+      } catch (error) {
+        logger.error("Failed to reset feeds to defaults", error as Error);
+        await alertError("Falha ao resetar feeds. Tente novamente.");
+      }
+    }
   };
 
   const handleFileImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1865,6 +1893,14 @@ export const FeedManager: React.FC<FeedManagerProps> = ({
             }
           >
             📤 Export OPML
+          </button>
+          <button
+            onClick={handleResetToDefaults}
+            className="bg-orange-600 text-white font-bold px-4 py-2 rounded-md hover:bg-orange-500 transition-colors"
+            aria-label="Reset to default feeds"
+            title="Reset to curated collection of 16 feeds organized by category"
+          >
+            🔄 Reset to Defaults
           </button>
         </div>
         <input

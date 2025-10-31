@@ -28,6 +28,7 @@ import { SkipLinks } from "./components/SkipLinks";
 import { PaginationControls } from "./components/PaginationControls";
 import { SearchFilters } from "./components/SearchBar";
 import { useLocalStorage } from "./hooks/useLocalStorage";
+import { useNotification } from "./contexts/NotificationContext";
 
 import { useKeyboardNavigation } from "./hooks/useKeyboardNavigation";
 import { useExtendedTheme } from "./hooks/useExtendedTheme";
@@ -41,6 +42,7 @@ import { withPerformanceTracking } from "./services/performanceUtils";
 import { initializeLogger } from "./services/logger";
 import { FeedLoadingProgress } from "./components/ProgressIndicator";
 import { ArticleListSkeleton } from "./components/SkeletonLoader";
+import { getDefaultFeeds, migrateFeeds } from "./utils/feedMigration";
 import type { Article, FeedSource } from "./types";
 
 // Lazy load non-critical components
@@ -54,12 +56,47 @@ const App: React.FC = () => {
   // Initialize logging system
   React.useEffect(() => {
     initializeLogger();
+    
+    // Load debug tools in development
+    if (process.env.NODE_ENV === 'development') {
+      import('./utils/debugMigration').then(({ debugMigration }) => {
+        (window as any).debugMigration = debugMigration;
+        console.log('🛠️ Debug migration tools loaded. Use window.debugMigration in console.');
+      });
+    }
   }, []);
 
-  const [feeds, setFeeds] = useLocalStorage<FeedSource[]>("rss-feeds", [
-    { url: "https://www.theverge.com/rss/index.xml" },
-    { url: "https://www.wired.com/feed/rss" },
-  ]);
+  const { showNotification } = useNotification();
+
+  // Handle feed migration on app startup
+  React.useEffect(() => {
+    const migrationResult = migrateFeeds(feeds);
+    if (migrationResult.migrated) {
+      console.log('Feed migration:', migrationResult.reason);
+      setFeeds(migrationResult.feeds);
+      
+      // Show notification to user about the migration
+      if (migrationResult.reason.includes('Upgraded from legacy')) {
+        showNotification(
+          '🎉 Feeds atualizados! Agora você tem 16 feeds organizados por categoria.',
+          { 
+            type: 'success', 
+            duration: 8000 
+          }
+        );
+      } else if (migrationResult.reason.includes('categorization')) {
+        showNotification(
+          '✨ Seus feeds foram organizados automaticamente por categoria.',
+          { 
+            type: 'info', 
+            duration: 6000 
+          }
+        );
+      }
+    }
+  }, []); // Run only once on mount
+
+  const [feeds, setFeeds] = useLocalStorage<FeedSource[]>("rss-feeds", getDefaultFeeds());
   // Progressive feed loading system
   const { articles, loadingState, loadFeeds, retryFailedFeeds, cancelLoading } =
     useProgressiveFeedLoading(feeds);
