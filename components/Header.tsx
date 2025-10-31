@@ -4,6 +4,7 @@ import { HeaderWeatherWidget } from "./HeaderWeatherWidget";
 import { PaginationControls } from "./PaginationControls";
 import { Article, FeedCategory } from "../types";
 import { useFavorites } from "../hooks/useFavorites";
+import Logo from "./Logo";
 
 interface HeaderProps {
   onManageFeedsClick: () => void;
@@ -39,11 +40,7 @@ const Header: React.FC<HeaderProps> = (props) => {
           <div className="flex justify-between items-center h-16">
             {/* Logo e título */}
             <div className="flex items-center space-x-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-[rgb(var(--color-accent))] to-[rgb(var(--color-primary))] rounded-lg flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clipRule="evenodd" />
-                </svg>
-              </div>
+              <Logo size="md" />
               <span className="text-lg font-semibold text-[rgb(var(--color-text))]">Personal News</span>
             </div>
 
