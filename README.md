@@ -12,6 +12,9 @@ A modern, high-performance RSS feed aggregator designed to serve as a browser ho
 
 This application provides a centralized interface for consuming RSS/Atom feeds with advanced features including intelligent caching, progressive loading, and comprehensive search capabilities. All data is stored locally using browser storage APIs, ensuring privacy and eliminating external dependencies.
 
+![Preview: Dashboard](/screen.png)
+
+
 ## Technical Features
 
 ### Core Functionality
