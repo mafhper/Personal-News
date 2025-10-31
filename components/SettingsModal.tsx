@@ -26,11 +26,24 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     const { currentTheme, updateThemeSettings, themeSettings } = useExtendedTheme();
     const { settings: layoutSettings, updateSettings: updateLayoutSettings } = useArticleLayout();
 
-    // Legacy theme color setter for backward compatibility
+    // Enhanced theme color setter that integrates with the extended theme system
     const setThemeColor = (color: string) => {
-        // This is kept for compatibility with the old ThemeSelector
-        // The new system handles theme changes through the extended theme hook
-        document.documentElement.style.setProperty('--color-accent', color);
+        // Create a new theme based on current theme with updated accent color
+        const newTheme = {
+            ...currentTheme,
+            id: `quick-color-${Date.now()}`,
+            name: `${currentTheme.name} (Cor Personalizada)`,
+            colors: {
+                ...currentTheme.colors,
+                accent: color,
+            }
+        };
+        
+        // Apply the new theme through the extended theme system
+        updateThemeSettings({ currentTheme: newTheme });
+        
+        // Also set the CSS variable for immediate visual feedback
+        document.documentElement.style.setProperty('--color-accent', `rgb(${color})`);
     };
 
     return (
