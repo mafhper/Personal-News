@@ -1,26 +1,24 @@
-name: Deploy to GitHub Pages
+name: Build & Deploy to GitHub Pages
 
-# Dispara a cada push no main
 on:
   push:
     branches:
       - main
 
-# Permissões necessárias
 permissions:
-  contents: read          # Ler o repositório
-  pages: write            # Gravar no GitHub Pages
+  contents: read
+  pages: write
   id-token: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       # 1️⃣ Clona o repositório
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Instala Bun
+      # 2️⃣ Configura Bun
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:
@@ -30,7 +28,7 @@ jobs:
       - name: Install dependencies
         run: bun install --no-cache
 
-      # 4️⃣ Garante os tipos Node para TypeScript
+      # 4️⃣ Garante os tipos Node
       - name: Ensure Node types
         run: bun add -d @types/node
 
@@ -38,20 +36,25 @@ jobs:
       - name: Type check
         run: bun tsc --noEmit -p tsconfig.json
 
-      # 6️⃣ Build do projeto (gera a pasta dist)
+      # 6️⃣ Limpa builds antigos
+      - name: Clean dist
+        run: bun rimraf dist
+
+      # 7️⃣ Build do projeto
       - name: Build project
         run: bun vite build
 
-      # 7️⃣ Prepara os arquivos para GitHub Pages
-      - name: Upload artifact for GitHub Pages
+      # 8️⃣ Preparar arquivos para GitHub Pages
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist   # pasta de build
+          path: ./dist
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build-and-deploy
+    needs: build
     steps:
+      # 9️⃣ Publica no GitHub Pages
       - name: Deploy to GitHub Pages
         id: deploy
         uses: actions/deploy-pages@v4
