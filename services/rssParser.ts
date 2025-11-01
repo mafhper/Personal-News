@@ -96,6 +96,20 @@ function cleanDescription(description: string): string {
 }
 
 /**
+ * Sanitiza título removendo HTML e entidades
+ */
+function sanitizeTitle(title: string): string {
+  return secureXmlUtils.sanitizeTextContent(title);
+}
+
+/**
+ * Sanitiza autor removendo HTML e entidades
+ */
+function sanitizeAuthor(author: string): string {
+  return secureXmlUtils.sanitizeTextContent(author);
+}
+
+/**
  * Fetch com timeout usando AbortController
  */
 async function fetchWithTimeout(
@@ -172,12 +186,12 @@ function parseRss2JsonResponse(data: string, feedUrl: string): { title: string; 
     }
 
     const article: Article = {
-      title: item.title || "No Title",
+      title: item.title ? sanitizeTitle(item.title) : "No Title",
       link: item.link || feedUrl,
       pubDate: item.pubDate ? new Date(item.pubDate) : new Date(),
       description: item.description ? cleanDescription(item.description).substring(0, 200) : "",
-      sourceTitle: json.feed?.title || "RSS Feed",
-      author: item.author || undefined,
+      sourceTitle: json.feed?.title ? sanitizeTitle(json.feed.title) : "RSS Feed",
+      author: item.author ? sanitizeAuthor(item.author) : undefined,
       categories: item.categories || [],
       imageUrl: imageUrl || undefined
     };
@@ -210,6 +224,7 @@ function parseXmlResponse(xmlContent: string, _feedUrl: string): { title: string
   if (channels.length > 0) {
     const titleElements = channels[0].getElementsByTagName("title");
     channelTitle = titleElements[0]?.textContent?.trim() || "Untitled Feed";
+    channelTitle = sanitizeTitle(channelTitle);
     items = xmlDoc.getElementsByTagName("item");
   } else {
     // Tenta Atom
@@ -217,6 +232,7 @@ function parseXmlResponse(xmlContent: string, _feedUrl: string): { title: string
     if (feeds.length > 0) {
       const titleElements = feeds[0].getElementsByTagName("title");
       channelTitle = titleElements[0]?.textContent?.trim() || "Untitled Feed";
+      channelTitle = sanitizeTitle(channelTitle);
       items = xmlDoc.getElementsByTagName("entry");
     } else {
       // Tenta RDF
@@ -226,6 +242,7 @@ function parseXmlResponse(xmlContent: string, _feedUrl: string): { title: string
         if (rdfChannels.length > 0) {
           const titleElements = rdfChannels[0].getElementsByTagName("title");
           channelTitle = titleElements[0]?.textContent?.trim() || "Untitled Feed";
+          channelTitle = sanitizeTitle(channelTitle);
         }
         items = rdfItems;
       } else {
@@ -241,7 +258,8 @@ function parseXmlResponse(xmlContent: string, _feedUrl: string): { title: string
 
     try {
       const titleElements = item.getElementsByTagName("title");
-      const title = titleElements[0]?.textContent?.trim() || "No Title";
+      const rawTitle = titleElements[0]?.textContent?.trim() || "No Title";
+      const title = sanitizeTitle(rawTitle);
 
       let link = "";
       const linkElements = item.getElementsByTagName("link");
@@ -275,7 +293,8 @@ function parseXmlResponse(xmlContent: string, _feedUrl: string): { title: string
       const creatorElements = item.getElementsByTagName("creator");
       const authorElement = authorElements[0] || creatorElements[0];
       if (authorElement?.textContent) {
-        author = authorElement.textContent.trim();
+        const rawAuthor = authorElement.textContent.trim();
+        author = sanitizeAuthor(rawAuthor);
       }
 
       const categories: string[] = [];

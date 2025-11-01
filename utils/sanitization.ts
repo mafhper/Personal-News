@@ -14,31 +14,58 @@
 export function sanitizeHtmlContent(text: string | null | undefined): string {
   if (!text) return "";
   
-  return text
-    // Remove scripts e iframes primeiro (mais perigosos)
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
-    .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, "")
-    // Remove event handlers
-    .replace(/on\w+\s*=\s*["'][^"']*["']/gi, "")
-    // Remove javascript: e data: URLs
-    .replace(/javascript:/gi, "")
-    .replace(/vbscript:/gi, "")
-    .replace(/data:text\/html/gi, "")
-    // Remove todas as outras tags HTML
-    .replace(/<[^>]*>/g, "")
-    // Decodifica entidades HTML comuns
+  let cleanText = text;
+  
+  // Múltiplas passadas para garantir que todas as entidades codificadas sejam tratadas
+  for (let i = 0; i < 5; i++) {
+    const beforeClean = cleanText;
+    
+    // Primeiro decodifica &amp; para & para lidar com entidades duplamente codificadas
+    cleanText = cleanText.replace(/&amp;/g, "&");
+    
+    // Decodifica entidades HTML para detectar tags codificadas
+    cleanText = cleanText
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&apos;/g, "'")
+      .replace(/&#x27;/g, "'")
+      .replace(/&#x2F;/g, "/")
+      .replace(/&#(\d+);/g, (_, num) => String.fromCharCode(parseInt(num, 10)))
+      .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCharCode(parseInt(hex, 16)));
+    
+    // Remove todas as tags HTML (incluindo as decodificadas)
+    cleanText = cleanText
+      // Remove scripts e iframes primeiro (mais perigosos)
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+      .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, "")
+      // Remove event handlers
+      .replace(/on\w+\s*=\s*["'][^"']*["']/gi, "")
+      // Remove javascript: e data: URLs
+      .replace(/javascript:/gi, "")
+      .replace(/vbscript:/gi, "")
+      .replace(/data:text\/html/gi, "")
+      // Remove todas as tags HTML (incluindo fragmentos incompletos)
+      .replace(/<[^>]*>/g, "")
+      // Remove fragmentos de tags HTML incompletos (como <img sem fechamento)
+      .replace(/<[^<]*$/g, "");
+    
+    // Se não houve mudanças, podemos parar
+    if (cleanText === beforeClean) {
+      break;
+    }
+  }
+  
+  // Por último, decodifica entidades HTML restantes e limpa
+  cleanText = cleanText
     .replace(/&nbsp;/g, " ")
     .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&apos;/g, "'")
-    .replace(/&#x27;/g, "'")
-    .replace(/&#x2F;/g, "/")
     // Remove caracteres de controle
     .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
     .trim();
+    
+  return cleanText;
 }
 
 /**
@@ -114,6 +141,48 @@ export function sanitizeUrl(url: string | null | undefined): string {
   }
   
   return cleanUrl;
+}
+
+/**
+ * Verifica se o texto contém HTML (incluindo entidades codificadas)
+ * 
+ * @param text - Texto a ser verificado
+ * @returns true se contém HTML, false caso contrário
+ */
+export function containsHtml(text: string | null | undefined): boolean {
+  if (!text) return false;
+  
+  // Verifica tags HTML diretas
+  if (/<[^>]*>/g.test(text)) {
+    return true;
+  }
+  
+  // Verifica entidades HTML codificadas que representam tags
+  if (/&lt;[^&]*&gt;/g.test(text)) {
+    return true;
+  }
+  
+  // Verifica entidades duplamente codificadas (&amp;lt; e &amp;gt;)
+  if (/&amp;lt;[^&]*&amp;gt;/g.test(text)) {
+    return true;
+  }
+  
+  // Verifica entidades duplamente codificadas incompletas (como &amp;lt; sem fechamento)
+  if (/&amp;lt;/g.test(text)) {
+    return true;
+  }
+  
+  // Verifica outras formas de codificação HTML numérica
+  if (/&#60;[^&#]*&#62;/g.test(text)) {
+    return true;
+  }
+  
+  // Verifica entidades numéricas incompletas
+  if (/&#60;/g.test(text)) {
+    return true;
+  }
+  
+  return false;
 }
 
 /**

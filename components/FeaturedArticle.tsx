@@ -69,7 +69,7 @@ export const FeaturedArticle: React.FC<{
               {article.title}
             </h3>
             <p className="mt-4 lg:mt-6 text-base lg:text-lg xl:text-xl text-gray-200 drop-shadow-md hidden md:block leading-relaxed max-w-4xl">
-              {sanitizeArticleDescription(article.description)}
+              {sanitizeArticleDescription(article.description || "")}
             </p>
             <footer className="mt-4 lg:mt-6 flex items-center space-x-4 lg:space-x-6 text-xs lg:text-sm font-bold uppercase text-gray-300">
               <span

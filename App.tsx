@@ -472,6 +472,10 @@ const App: React.FC = () => {
         currentPage={pagination.currentPage}
         totalPages={pagination.totalPages}
         onPageChange={pagination.setPage}
+        onGoHome={() => {
+          setSelectedCategory("all");
+          pagination.resetPagination();
+        }}
       />
       <main
         ref={swipeRef}

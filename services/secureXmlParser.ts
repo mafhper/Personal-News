@@ -97,7 +97,18 @@ function validateXmlStructure(doc: Document, config: SecurityConfig): void {
 function sanitizeTextContent(text: string | null): string {
   if (!text) return "";
 
-  return text
+  let cleanText = text;
+  
+  // Primeiro, decodifica entidades HTML para detectar tags codificadas
+  cleanText = cleanText
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'");
+  
+  // Agora remove conteúdo perigoso e tags HTML
+  cleanText = cleanText
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "") // Remove scripts
     .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, "") // Remove iframes
     .replace(/on\w+\s*=\s*["'][^"']*["']/gi, "") // Remove event handlers
@@ -105,7 +116,15 @@ function sanitizeTextContent(text: string | null): string {
     .replace(/vbscript:/gi, "") // Remove vbscript: URLs
     .replace(/data:text\/html/gi, "") // Remove data URLs with HTML
     .replace(/expression\s*\(/gi, "") // Remove CSS expressions
+    .replace(/<[^>]*>/g, ""); // Remove all HTML tags
+  
+  // Por último, decodifica entidades restantes e limpa
+  cleanText = cleanText
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
     .trim();
+    
+  return cleanText;
 }
 
 /**

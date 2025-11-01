@@ -98,6 +98,10 @@ temp/
 # Bun
 .bun
 
-# Test results
+# Tests
 test-results/
 playwright-report/
+__tests_unused/
+
+# Documentation (local development only)
+docs/
